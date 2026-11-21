@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Amaahdayda — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Xisaabtayda</span>
+  <h1>Amaahdayda</h1>
+  <div class="divider-brass"></div>
+
+  <div class="table-responsive">
+    <table class="table table-lms card-plain">
+      <thead>
+        <tr>
+          <th>Buugga</th>
+          <th>Taariikhda Amaahda</th>
+          <th>Dhamaadka</th>
+          <th>Soo Celin</th>
+          <th>Xaalad</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td>{{ r.book.title }}</td>
+          <td class="mono">{{ r.borrow_date }}</td>
+          <td class="mono">{{ r.due_date }}</td>
+          <td class="mono">{{ r.return_date|default:"—" }}</td>
+          <td>
+            {% if r.status == 'RETURNED' %}
+              <span class="avail-pill avail-yes">Waa la soo celiyay</span>
+            {% elif r.is_overdue %}
+              <span class="avail-pill avail-no">Dib u dhac ({{ r.days_overdue }} maalmood)</span>
+            {% else %}
+              <span class="avail-pill" style="background:#FFF3D6; color:#8a6d1d;">Waa la haystaa</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if r.status != 'RETURNED' and not r.is_overdue and r.renewal_count < 2 %}
+            <form method="post" action="{% url 'circulation:renew_loan' r.pk %}">{% csrf_token %}<button type="submit" class="btn btn-brass btn-sm">Kordhi +7 maalmood</button></form>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-muted text-center">Wali buugaag ma amaahan.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

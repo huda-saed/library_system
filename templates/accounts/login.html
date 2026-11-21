@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Log in — Library System{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="text-center mb-4">
+      <i class="fa-solid fa-book-bookmark fa-2x" style="color: var(--brass);"></i>
+      <h2 class="mt-2 mb-0">Soo Gal</h2>
+      <p class="text-muted small">Geli xisaabtaada si aad u isticmaasho Library System</p>
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">{{ form.username.label }}</label>
+        {{ form.username }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">{{ form.password.label }}</label>
+        {{ form.password }}
+      </div>
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger py-2 small">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <button type="submit" class="btn btn-ink w-100 mt-2">Soo Gal</button>
+    </form>
+    {% if show_demo_accounts %}
+    <div class="mt-4 pt-3" style="border-top:1px dashed var(--brass);">
+      <p class="small text-muted mb-2">Akoonnada tijaabada — riix mid si aad u buuxiso:</p>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="button" class="btn btn-outline-ink btn-sm" onclick="fillLogin('admin','Admin@12345')">Admin</button>
+        <button type="button" class="btn btn-outline-ink btn-sm" onclick="fillLogin('Laab','laab6849a')">Admin (Laab)</button>
+        <button type="button" class="btn btn-outline-ink btn-sm" onclick="fillLogin('librarian1','Librarian@123')">Librarian</button>
+        <button type="button" class="btn btn-outline-ink btn-sm" onclick="fillLogin('member1','Member@123')">Member</button>
+      </div>
+      <p class="small text-muted mt-2 mb-0 mono">admin / Admin@12345 &nbsp;·&nbsp; librarian1 / Librarian@123 &nbsp;·&nbsp; member1 / Member@123</p>
+    </div>
+    <script>
+      function fillLogin(u, p) {
+        document.getElementById('{{ form.username.id_for_label }}').value = u;
+        document.getElementById('{{ form.password.id_for_label }}').value = p;
+      }
+    </script>
+    {% endif %}
+    <p class="text-center small mt-3 mb-0">Xisaab ma lihid? <a href="{% url 'accounts:register' %}">Isdiiwaangeli halkan</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Tirtir Buug — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <div class="card-plain" style="max-width: 560px;">
+    <h3>Ma hubtaa inaad tirtirto?</h3>
+    <p class="text-muted">Waxaad ku dhawaaqday inaad tirtirto <strong>{{ book.title }}</strong>. Tallaabadan lama noqon karo.</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger">Haa, Tirtir</button>
+      <a href="{% url 'catalog:book_detail' book.pk %}" class="btn btn-outline-ink">Jooji</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Library System — Home{% endblock %}
+
+{% block content %}
+
+<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=70');">
+      <div class="hero-caption-custom">
+        <span class="eyebrow">Library System</span>
+        <h1>Aqoonta Waxay Ku Aaddan Tahay Gacantaada</h1>
+        <p>Nidaam casri ah oo maareeya buugaagta, xubnaha, amaahda iyo ganaaxyada — dhammaan hal meel.</p>
+        <a href="{% url 'catalog:book_list' %}" class="btn btn-brass btn-lg mt-2">Raadi Buugaagta <i class="fa-solid fa-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=70');">
+      <div class="hero-caption-custom">
+        <span class="eyebrow">Amaah &amp; Soo Celin — Otomaatig</span>
+        <h1>Amaahda Buugaagta Si Fudud Ayaa Loo Maareeyaa</h1>
+        <p>Kormeere iyo Xubin — labaduba waxay ku wici karaan taariikhda dib u soo celinta iyo ganaaxa haddii uu jiro.</p>
+        <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg mt-2">Isdiiwaangeli Hadda</a>
+      </div>
+    </div>
+    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1600&q=70');">
+      <div class="hero-caption-custom">
+        <span class="eyebrow">Warbixino &amp; Falanqayn</span>
+        <h1>Xogaha Sax ah, Go'aan Sax ah</h1>
+        <p>Maamulayaasha waxay helayaan warbixino toos ah oo ku saabsan buugaagta la amaahay, dib u dhaca, iyo ganaaxyada.</p>
+        <a href="{% url 'core:about' %}" class="btn btn-outline-light btn-lg mt-2">Baro Nidaamka</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- Stats strip -->
+<div class="container section-pad">
+  <div class="row text-center g-4">
+    <div class="col-md-3 col-6">
+      <div class="stat-card"><div class="stat-number">{{ total_books }}</div><div class="stat-label">Buugaag Diiwaan gashan</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="stat-card"><div class="stat-number">{{ total_categories }}</div><div class="stat-label">Qaybood</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Gelitaanka Online-ka ah</div></div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Doorar: Admin/Kormeere/Xubin</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Latest books -->
+<div class="container section-pad pt-0">
+  <span class="section-eyebrow">Buugaag Cusub</span>
+  <h2>Ku Dar Liiskaaga Akhriska</h2>
+  <div class="divider-brass"></div>
+
+  <div class="row g-4 mt-2">
+    {% for book in latest_books %}
+    <div class="col-md-4">
+      <div class="catalog-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <span class="isbn-tag mono">{{ book.isbn }}</span>
+            {% if book.is_available %}
+              <span class="avail-pill avail-yes">La heli karaa</span>
+            {% else %}
+              <span class="avail-pill avail-no">La qaatay dhamaan</span>
+            {% endif %}
+          </div>
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author">{{ book.author }}</div>
+          <p class="small text-muted mt-2 mb-1">{{ book.category.name|default:"Aan qaybaysneyn" }}</p>
+          <a href="{% url 'catalog:book_detail' book.pk %}" class="btn btn-outline-ink btn-sm mt-2">Faahfaahin</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <p class="text-muted">Wali buugaag lama gelin. <a href="{% url 'accounts:login' %}">Soo gal</a> si aad u bilowdo inaad buugaag ku darto (Librarian/Admin).</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Feature strip -->
+<div style="background: var(--parchment-deep);">
+  <div class="container section-pad">
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <i class="fa-solid fa-magnifying-glass fa-2x mb-3" style="color: var(--brass);"></i>
+        <h4 class="h5">Raadinta Buugga</h4>
+        <p class="small text-muted">Raadi cinwaan, qoraa, ISBN ama qaybta.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fa-solid fa-right-left fa-2x mb-3" style="color: var(--brass);"></i>
+        <h4 class="h5">Amaah &amp; Soo Celin</h4>
+        <p class="small text-muted">Diiwaangelin toos ah oo la socda taariikhaha.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fa-solid fa-money-bill-wave fa-2x mb-3" style="color: var(--brass);"></i>
+        <h4 class="h5">Ganaax Otomaatig ah</h4>
+        <p class="small text-muted">Xisaabinta ganaaxa dib u dhaca si toos ah.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fa-solid fa-bell fa-2x mb-3" style="color: var(--brass);"></i>
+        <h4 class="h5">Xusuusin &amp; Reservation</h4>
+        <p class="small text-muted">Dalbo buug qaatan oo la ogeysiin marka la heli karo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

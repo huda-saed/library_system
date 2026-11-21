@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Profile-kayga — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Xisaabtayda</span>
+  <h1>Profile-kayga</h1>
+  <div class="divider-brass"></div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card-plain">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+          </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-ink">Kaydi Isbeddelka</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card-plain">
+        <h5 class="h6" style="font-family:'IBM Plex Mono',monospace; text-transform:uppercase; color:var(--brass);">Macluumaad Kordhin ah</h5>
+        <p class="mb-1"><strong>Doorka:</strong> {{ user.get_role_display }}</p>
+        <p class="mb-1"><strong>Nooca Xubinnimada:</strong> {{ user.get_membership_type_display }}</p>
+        <p class="mb-1"><strong>Xaaladda:</strong> {{ user.get_status_display }}</p>
+        <p class="mb-3"><strong>Taariikhda Diiwaangelinta:</strong> {{ user.registration_date }}</p>
+        <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-ink btn-sm"><i class="fa-solid fa-key me-1"></i> Beddel Password-ka</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

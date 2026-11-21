@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Qaybaha — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Habaynta</span>
+  <h1>Qaybaha Buugaagta</h1>
+  <div class="divider-brass"></div>
+
+  {% if user.is_authenticated %}{% if user.is_admin or user.is_librarian %}
+  <a href="{% url 'catalog:category_create' %}" class="btn btn-brass mb-4"><i class="fa-solid fa-plus me-1"></i> Ku Dar Qayb</a>
+  {% endif %}{% endif %}
+
+  <div class="row g-4">
+    {% for category in categories %}
+    <div class="col-md-4">
+      <div class="catalog-card h-100">
+        <div class="card-body">
+          <div class="book-title"><i class="fa-solid fa-tags me-2" style="color:var(--brass);"></i>{{ category.name }}</div>
+          <p class="text-muted small mt-2">{{ category.description|default:"Faahfaahin lama qorin." }}</p>
+          <p class="mono small text-muted mb-2">{{ category.books.count }} buug</p>
+          {% if user.is_admin or user.is_librarian %}
+          <a href="{% url 'catalog:category_update' category.pk %}" class="btn btn-outline-ink btn-sm"><i class="fa-solid fa-pen me-1"></i>Wax ka beddel</a>
+          <a href="{% url 'catalog:category_delete' category.pk %}" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash me-1"></i>Tirtir</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">Wali qaybo lama abuurin.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

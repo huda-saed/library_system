@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Library-yada — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Maamulka Nidaamka</span>
+  <h1>Library-yada</h1>
+  <div class="divider-brass"></div>
+  <a href="{% url 'core:library_create' %}" class="btn btn-brass mb-4"><i class="fa-solid fa-plus me-1"></i> Ku Dar Library Cusub</a>
+  <div class="card-plain">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead><tr><th>Magaca</th><th>Code</th><th>Cinwaan</th><th>Buugaag</th><th>Isticmaalayaal</th><th></th></tr></thead>
+        <tbody>
+        {% for lib in libraries %}
+          <tr>
+            <td><strong>{{ lib.name }}</strong></td>
+            <td class="mono">{{ lib.code }}</td>
+            <td>{{ lib.address|default:"—" }}</td>
+            <td>{{ lib.book_count }}</td>
+            <td>{{ lib.user_count }}</td>
+            <td class="text-end">
+              <a href="{% url 'core:library_update' lib.pk %}" class="btn btn-outline-ink btn-sm">Wax ka beddel</a>
+              <a href="{% url 'core:library_delete' lib.pk %}" class="btn btn-outline-danger btn-sm">Tirtir</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-muted">Wali library lama darin.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

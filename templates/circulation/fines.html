@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Ganaaxyadayda — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Xisaabtayda</span>
+  <h1>Ganaaxyadayda</h1>
+  <div class="divider-brass"></div>
+
+  <div class="table-responsive">
+    <table class="table table-lms card-plain">
+      <thead>
+        <tr>
+          <th>Buugga</th>
+          <th>Qadarka</th>
+          <th>Xaalad</th>
+          <th>Taariikhda Bixinta</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fine in fines %}
+        <tr>
+          <td>{{ fine.borrow_record.book.title }}</td>
+          <td class="mono">{{ fine.amount }}</td>
+          <td>
+            {% if fine.payment_status == 'PAID' %}
+              <span class="avail-pill avail-yes">La bixiyay</span>
+            {% else %}
+              <span class="avail-pill avail-no">Aan la bixin</span>
+            {% endif %}
+          </td>
+          <td class="mono">{{ fine.payment_date|default:"—" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-muted text-center">Ganaax kuguma aha, mahadsanid!</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="text-muted small mt-3">Fadlan ganaaxyada aad bixin lahayd u soo dir maktabadda si loo calaamadeeyo in la bixiyay.</p>
+</div>
+{% endblock %}

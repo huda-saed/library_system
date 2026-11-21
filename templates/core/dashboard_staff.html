@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Dashboard</span>
+  <h1>Ku soo dhawoow, {{ user.first_name|default:user.username }}</h1>
+  <div class="divider-brass"></div>
+
+  <div class="row g-4 mt-1">
+    <div class="col-md-4 col-6">
+      <div class="stat-card"><div class="stat-number">{{ total_books }}</div><div class="stat-label">Buugaag</div></div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="stat-card"><div class="stat-number">{{ total_members }}</div><div class="stat-label">Xubno</div></div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="stat-card"><div class="stat-number">{{ active_loans }}</div><div class="stat-label">Amaah Socda</div></div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="stat-card" style="border-left-color: var(--danger);"><div class="stat-number">{{ overdue_loans }}</div><div class="stat-label">Dib u Dhac</div></div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="stat-card"><div class="stat-number">{{ unpaid_fines }}</div><div class="stat-label">Ganaax La Bixin Waayay</div></div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="stat-card"><div class="stat-number">{{ pending_reservations }}</div><div class="stat-label">Dalabyo Sugaya</div></div>
+    </div>
+  </div>
+
+  <h4 class="mt-5">Ficillo Degdeg ah</h4>
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    <a href="{% url 'catalog:book_create' %}" class="btn btn-ink"><i class="fa-solid fa-plus me-1"></i> Ku Dar Buug</a>
+    <a href="{% url 'catalog:book_list' %}" class="btn btn-outline-ink"><i class="fa-solid fa-book me-1"></i> Liiska Buugaagta</a>
+    <a href="{% url 'catalog:category_create' %}" class="btn btn-outline-ink"><i class="fa-solid fa-tags me-1"></i> Ku Dar Qayb</a>
+    <a href="{% url 'circulation:reports' %}" class="btn btn-outline-ink"><i class="fa-solid fa-chart-column me-1"></i> Warbixino &amp; Amaah</a>
+    <a href="{% url 'circulation:loan_list' %}" class="btn btn-outline-ink"><i class="fa-solid fa-clock-rotate-left me-1"></i> Taariikhda Amaahda</a>
+    <a href="{% url 'circulation:export_books' %}" class="btn btn-outline-ink"><i class="fa-solid fa-file-csv me-1"></i> Soo deji Buugaagta</a>
+    <a href="{% url 'accounts:user_list' %}" class="btn btn-outline-ink"><i class="fa-solid fa-users me-1"></i> Isticmaalayaasha</a>
+    <a href="{% url 'accounts:user_create' %}" class="btn btn-outline-ink"><i class="fa-solid fa-user-plus me-1"></i> Ku Dar Xubin / Librarian</a>
+    {% if user.is_superuser %}<a href="{% url 'core:library_list' %}" class="btn btn-outline-ink"><i class="fa-solid fa-building-columns me-1"></i> Library-yada</a>{% endif %}
+    <a href="/admin/" class="btn btn-outline-ink"><i class="fa-solid fa-gear me-1"></i> Django Admin</a>
+  </div>
+</div>
+{% endblock %}

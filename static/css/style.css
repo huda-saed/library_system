@@ -1,0 +1,314 @@
+/* =========================================================
+   LMS Design System — Library System
+   Palette: deep forest ink, parchment cream, brass accent
+   Type: Playfair Display (display) / Inter (body) / IBM Plex Mono (data)
+   ========================================================= */
+
+:root {
+  --ink-green: #1B4332;
+  --ink-green-dark: #10281D;
+  --sage: #84A98C;
+  --parchment: #F6F1E7;
+  --parchment-deep: #EDE4D3;
+  --brass: #B08D57;
+  --brass-light: #D4B483;
+  --ink: #1C1C1E;
+  --ink-soft: #4A4A47;
+  --danger: #9B2C2C;
+  --ok: #2F6B3C;
+  --radius: 4px;
+  --shadow-card: 0 2px 10px rgba(16, 40, 29, 0.08);
+  --shadow-lift: 0 10px 30px rgba(16, 40, 29, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, .display-font {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--ink-green-dark);
+  letter-spacing: -0.01em;
+}
+
+.mono, .call-number, .isbn-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.02em;
+}
+
+a { color: var(--ink-green); }
+a:hover { color: var(--brass); }
+
+/* ---------- Navbar ---------- */
+.navbar-lms {
+  background: var(--ink-green-dark);
+  border-bottom: 3px solid var(--brass);
+}
+.navbar-lms .navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--parchment) !important;
+  font-size: 1.4rem;
+}
+.navbar-lms .navbar-brand span { color: var(--brass-light); }
+.navbar-lms .nav-link {
+  color: rgba(246, 241, 231, 0.85) !important;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem !important;
+}
+.navbar-lms .nav-link:hover,
+.navbar-lms .nav-link.active {
+  color: var(--brass-light) !important;
+}
+.badge-role {
+  background: var(--brass);
+  color: var(--ink-green-dark);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius);
+  text-transform: uppercase;
+}
+
+/* ---------- Buttons ---------- */
+.btn-brass {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--ink-green-dark);
+  font-weight: 600;
+}
+.btn-brass:hover {
+  background: var(--brass-light);
+  border-color: var(--brass-light);
+  color: var(--ink-green-dark);
+}
+.btn-ink {
+  background: var(--ink-green);
+  border-color: var(--ink-green);
+  color: var(--parchment);
+  font-weight: 600;
+}
+.btn-ink:hover {
+  background: var(--ink-green-dark);
+  border-color: var(--ink-green-dark);
+  color: var(--brass-light);
+}
+.btn-outline-ink {
+  border-color: var(--ink-green);
+  color: var(--ink-green);
+  font-weight: 600;
+}
+.btn-outline-ink:hover {
+  background: var(--ink-green);
+  color: var(--parchment);
+}
+
+/* ---------- Hero / Carousel ---------- */
+.hero-carousel .carousel-item {
+  height: 78vh;
+  min-height: 420px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.hero-carousel .carousel-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(16,40,29,0.55) 0%, rgba(16,40,29,0.75) 100%);
+}
+.hero-caption-custom {
+  position: absolute;
+  z-index: 3;
+  bottom: auto;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  text-align: left;
+  max-width: 620px;
+  right: auto;
+}
+.hero-caption-custom .eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--brass-light);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.hero-caption-custom h1 {
+  color: var(--parchment);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.hero-caption-custom p {
+  color: rgba(246, 241, 231, 0.9);
+  font-size: 1.15rem;
+}
+
+/* ---------- Card-catalog styled cards ---------- */
+.catalog-card {
+  background: #fff;
+  border: 1px solid var(--parchment-deep);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.catalog-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--brass);
+}
+.catalog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+.catalog-card .card-body { padding: 1.25rem; }
+.catalog-card .book-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink-green-dark);
+}
+.catalog-card .book-author {
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+.isbn-tag {
+  display: inline-block;
+  background: var(--parchment-deep);
+  color: var(--ink-soft);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+}
+.avail-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+.avail-yes { background: #E3F0E5; color: var(--ok); }
+.avail-no { background: #F5E1E1; color: var(--danger); }
+
+/* ---------- Section framing ---------- */
+.section-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--brass);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+}
+.section-pad { padding: 4.5rem 0; }
+.divider-brass {
+  width: 60px;
+  height: 3px;
+  background: var(--brass);
+  margin: 0.75rem 0 1.5rem;
+}
+
+/* ---------- Auth pages ---------- */
+.auth-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-green-dark);
+  background-image:
+    linear-gradient(rgba(16,40,29,0.88), rgba(16,40,29,0.92)),
+    url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1600&q=60');
+  background-size: cover;
+  background-position: center;
+  padding: 3rem 1rem;
+}
+.auth-card {
+  background: var(--parchment);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lift);
+  padding: 2.5rem;
+  max-width: 460px;
+  width: 100%;
+  border-top: 4px solid var(--brass);
+}
+
+/* ---------- Dashboard stat cards ---------- */
+.stat-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--brass);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+}
+.stat-card .stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ink-green-dark);
+}
+.stat-card .stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Tables ---------- */
+.table-lms thead {
+  background: var(--ink-green);
+  color: var(--parchment);
+}
+.table-lms thead th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  border: none;
+}
+.table-lms td { vertical-align: middle; }
+
+/* ---------- Footer ---------- */
+footer.footer-lms {
+  background: var(--ink-green-dark);
+  color: rgba(246, 241, 231, 0.75);
+  padding: 2.5rem 0 1.5rem;
+  margin-top: 4rem;
+  border-top: 3px solid var(--brass);
+}
+footer.footer-lms a { color: var(--brass-light); }
+footer.footer-lms h5 {
+  color: var(--parchment);
+  font-family: 'Playfair Display', serif;
+}
+
+/* ---------- Utility ---------- */
+.card-plain {
+  background: #fff;
+  border: 1px solid var(--parchment-deep);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--brass);
+  box-shadow: 0 0 0 0.2rem rgba(176, 141, 87, 0.25);
+}
+
+@media (max-width: 768px) {
+  .hero-caption-custom h1 { font-size: 2rem; }
+  .hero-caption-custom { left: 5%; right: 5%; max-width: none; }
+}

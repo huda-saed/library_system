@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Isdiiwaangeli — Library System{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card" style="max-width: 560px;">
+    <div class="text-center mb-4">
+      <i class="fa-solid fa-user-plus fa-2x" style="color: var(--brass);"></i>
+      <h2 class="mt-2 mb-0">Isdiiwaangeli</h2>
+      <p class="text-muted small">Samee xisaab Xubin ah si aad u amaahato buugaagta</p>
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <div class="row g-2">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Magaca Koowaad</label>
+          {{ form.first_name }}
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Magaca Labaad</label>
+          {{ form.last_name }}
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Library</label>
+        {{ form.library }}
+        {% if form.library.errors %}<div class="text-danger small">{{ form.library.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="row g-2">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Telefoonka</label>
+          {{ form.phone }}
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nooca Xubinnimada</label>
+          {{ form.membership_type }}
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}<div class="text-danger small">{{ form.password1.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Xaqiiji Password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}<div class="text-danger small">{{ form.password2.errors }}</div>{% endif %}
+      </div>
+      <button type="submit" class="btn btn-ink w-100 mt-2">Samee Xisaab</button>
+    </form>
+    <p class="text-center small mt-3 mb-0">Xisaab horay ma u lahayd? <a href="{% url 'accounts:login' %}">Soo gal halkan</a></p>
+  </div>
+</div>
+{% endblock %}

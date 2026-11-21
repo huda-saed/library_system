@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Tirtir Qayb — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <div class="card-plain" style="max-width: 560px;">
+    <h3>Ma hubtaa inaad tirtirto?</h3>
+    <p class="text-muted">Waxaad tirtirayaa qaybta <strong>{{ category.name }}</strong>. Buugaagta ku jira ma tirtirmayaan, waxay noqonayaan "Aan qaybaysneyn".</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger">Haa, Tirtir</button>
+      <a href="{% url 'catalog:category_list' %}" class="btn btn-outline-ink">Jooji</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

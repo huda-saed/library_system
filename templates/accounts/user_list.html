@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Isticmaalayaasha — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Maamulka</span>
+  <h1>Isticmaalayaasha &amp; Xubnaha</h1>
+  <div class="divider-brass"></div>
+
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-md-6"><input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Raadi: username, magac, email..."></div>
+    <div class="col-md-3">
+      <select name="role" class="form-select">
+        <option value="">Dhammaan doorarka</option>
+        {% for value, label in roles %}<option value="{{ value }}" {% if value == role %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3"><button type="submit" class="btn btn-ink w-100"><i class="fa-solid fa-magnifying-glass me-1"></i> Raadi</button></div>
+  </form>
+
+  <a href="{% url 'accounts:user_create' %}" class="btn btn-brass mb-4"><i class="fa-solid fa-user-plus me-1"></i> Ku Dar Isticmaale</a>
+
+  <div class="card-plain">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead><tr><th>Username</th><th>Magaca</th><th>Doorka</th>{% if user.is_superuser and not user.library %}<th>Library</th>{% endif %}<th>Xaalad</th><th></th></tr></thead>
+        <tbody>
+        {% for u in page_obj %}
+          <tr>
+            <td class="mono">{{ u.username }}</td>
+            <td>{{ u.get_full_name|default:"—" }}<div class="small text-muted">{{ u.email }}</div></td>
+            <td>{{ u.get_role_display }}</td>
+            {% if user.is_superuser and not user.library %}<td>{{ u.library.name|default:"—" }}</td>{% endif %}
+            <td>{{ u.get_status_display }}</td>
+            <td class="text-end">
+              {% if u.role == 'MEMBER' %}<a href="{% url 'circulation:loan_list' %}?q={{ u.username }}" class="btn btn-outline-ink btn-sm">Amaah</a>{% endif %}
+              {% if u.can_manage %}
+              <a href="{% url 'accounts:user_update' u.pk %}" class="btn btn-outline-ink btn-sm">Wax ka beddel</a>
+              <a href="{% url 'accounts:user_delete' u.pk %}" class="btn btn-outline-danger btn-sm">Tirtir</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-muted">Isticmaale lama helin.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="mt-4"><ul class="pagination">
+    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">&laquo;</a></li>{% endif %}
+    {% for num in page_obj.paginator.page_range %}<li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ num }}">{{ num }}</a></li>{% endfor %}
+    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page_obj.next_page_number }}">&raquo;</a></li>{% endif %}
+  </ul></nav>
+  {% endif %}
+</div>
+{% endblock %}

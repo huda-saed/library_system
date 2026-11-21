@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Amaahda — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Maamulka</span>
+  <h1>Taariikhda Amaahda</h1>
+  <div class="divider-brass"></div>
+
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-md-6"><input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Raadi: buug, ISBN, xubin..."></div>
+    <div class="col-md-3">
+      <select name="status" class="form-select">
+        <option value="">Dhammaan xaaladaha</option>
+        {% for value, label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3"><button type="submit" class="btn btn-ink w-100"><i class="fa-solid fa-magnifying-glass me-1"></i> Raadi</button></div>
+  </form>
+  <a href="{% url 'circulation:export_loans' %}" class="btn btn-outline-ink btn-sm mb-3"><i class="fa-solid fa-file-csv me-1"></i> Soo deji CSV</a>
+
+  <div class="card-plain">
+    <div class="table-responsive">
+      <table class="table table-lms mb-0">
+        <thead><tr><th>Buugga</th><th>Xubinta</th><th>Amaah</th><th>Dhamaad</th><th>Soo celin</th><th>Xaalad</th><th>Ficil</th></tr></thead>
+        <tbody>
+        {% for r in page_obj %}
+          <tr>
+            <td>{{ r.book.title }}</td>
+            <td>{{ r.member }}</td>
+            <td class="mono">{{ r.borrow_date }}</td>
+            <td class="mono">{{ r.due_date }}{% if r.renewal_count %} <span class="small text-muted">(+{{ r.renewal_count }})</span>{% endif %}</td>
+            <td class="mono">{{ r.return_date|default:"—" }}</td>
+            <td>
+              {% if r.status == 'RETURNED' %}<span class="avail-pill avail-yes">La soo celiyay</span>
+              {% elif r.is_overdue %}<span class="avail-pill avail-no">Dib u dhac ({{ r.days_overdue }}d)</span>
+              {% else %}<span class="avail-pill" style="background:#FFF3D6; color:#8a6d1d;">Socda</span>{% endif %}
+            </td>
+            <td class="text-nowrap">
+              {% if r.status != 'RETURNED' %}
+              <form method="post" action="{% url 'circulation:return_book' r.pk %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-outline-ink btn-sm">Soo Celi</button></form>
+              {% if not r.is_overdue and r.renewal_count < max_renewals %}
+              <form method="post" action="{% url 'circulation:renew_loan' r.pk %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-brass btn-sm">Kordhi</button></form>
+              {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-muted text-center">Amaah lama helin.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="mt-4"><ul class="pagination">
+    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">&laquo;</a></li>{% endif %}
+    {% for num in page_obj.paginator.page_range %}<li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ num }}">{{ num }}</a></li>{% endfor %}
+    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{% if qs %}{{ qs }}&amp;{% endif %}page={{ page_obj.next_page_number }}">&raquo;</a></li>{% endif %}
+  </ul></nav>
+  {% endif %}
+</div>
+{% endblock %}

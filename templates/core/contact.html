@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Nala Soo Xiriir — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Xiriir</span>
+  <h1>Nala Soo Xiriir</h1>
+  <div class="divider-brass"></div>
+
+  <div class="row g-5 mt-2">
+    <div class="col-lg-6">
+      <div class="card-plain">
+        <p><i class="fa-solid fa-location-dot me-2" style="color:var(--brass);"></i> Library System</p>
+        <p><i class="fa-solid fa-envelope me-2" style="color:var(--brass);"></i> library@library-system.local</p>
+        <p><i class="fa-solid fa-phone me-2" style="color:var(--brass);"></i> 063 000 0000</p>
+        <p class="mb-0"><i class="fa-solid fa-clock me-2" style="color:var(--brass);"></i> Sabti–Khamiis: 8:00 AM – 6:00 PM</p>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card-plain">
+        <form method="post" action="#">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Magaca</label>
+            <input type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Emailka</label>
+            <input type="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fariinta</label>
+            <textarea class="form-control" rows="4" required></textarea>
+          </div>
+          <button class="btn btn-ink" type="submit">Dir Fariinta</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

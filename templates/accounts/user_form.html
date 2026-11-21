@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} — Library System{% endblock %}
+{% block content %}
+<div class="container section-pad">
+  <span class="section-eyebrow">Maamulka</span>
+  <h1>{{ action }}</h1>
+  <div class="divider-brass"></div>
+  <div class="card-plain" style="max-width: 720px;">
+    <form method="post">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="row">
+        {% for field in form %}
+        <div class="col-md-6 mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% if not creating %}<p class="small text-muted">Password-ka ka daa madhan haddii aadan rabin inaad beddesho.</p>{% endif %}
+      <button type="submit" class="btn btn-ink">Kaydi</button>
+      <a href="{% url 'accounts:user_list' %}" class="btn btn-outline-ink">Jooji</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
